@@ -1,16 +1,12 @@
-const _elements = {
-				vaccinated: document.querySelector("vaccinated"),
-				confirmed: document.querySelector("confirmed"),
-				deaths: document.querySelector("deaths")
-}
 function cards (){  
 d3.csv('https://raw.githubusercontent.com/Joellensilva/Dashboard-covid19/main/covid19-dados.csv').then(Graphic);
+d3.csv('https://raw.githubusercontent.com/Joellensilva/Dashboard-covid19/main/vacinas.csv').then(Vaccinated);
 }
 
 
 function Graphic(data) {
-			  confirmed = data.map(function(d) {return d.last_available_confirmed});
-				deaths = data.map(function(d) {return d.last_available_deaths});
+			  var confirmed = data.map(function(d) {return d.last_available_confirmed});
+				var deaths = data.map(function(d) {return d.last_available_deaths});
 				document.getElementById("deaths7days").value = deaths[0] - deaths[6];
 				document.getElementById("deaths1month").value = deaths[0] - deaths[30];
 				document.getElementById("deaths1year").value = deaths[0] - deaths[365];
@@ -44,4 +40,35 @@ function Graphic(data) {
 								}
 								
 				});
+}
+
+function Vaccinated(data) {
+				
+				var vaccinated = data.map(function(d) {return d.vacina_descricao_dose});
+				var vac1 = 0, vac2 = 0, vac3 = 0, doseuni = 0, i;
+				for(i=0; i<vaccinated.length; i++){
+								if(vaccinated[i] === '1ª Dose'){
+												vac1++;
+								}
+								else if(vaccinated[i] === '2ª Dose'){
+												vac2++;
+								}
+								else if(vaccinated[i] === 'Reforço' || vaccinated[i] === 'Dose Adicional'){
+												vac3++;
+								}
+								else if(vaccinated[i] === 'Dose'){
+												doseuni++;
+								}
+				}
+				var vaccinated = new Chart(document.getElementsByClassName("vaccinated"), {
+								type: 'bar',
+								data: {
+												labels: ["1ª Dose", "2ª Dose", "3ª Dose", "Dose única"],
+												datasets: [{
+																label: "População vacinada",
+																data: [vac1, vac2, vac3, doseuni]
+												}]
+								}
+				});
+				
 }
