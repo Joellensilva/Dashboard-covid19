@@ -1,0 +1,20 @@
+.center {
+	justify-content: center;
+}
+
+
+.container {
+	max-width: 50%;
+	margin: 0 auto;
+}
+
+#item2 {
+	flex: 1;
+	margin: 5px;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
